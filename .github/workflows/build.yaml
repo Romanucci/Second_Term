@@ -1,0 +1,19 @@
+name: Build and Publish
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Build
+        run: make
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: lib.so
+          path:
+            bin/lib.so
