@@ -16,4 +16,4 @@ jobs:
         with:
           name: lib/libmath.so
           path:
-            lib/libmath.so
+            libmath.so
