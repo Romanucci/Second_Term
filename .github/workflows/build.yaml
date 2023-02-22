@@ -14,6 +14,6 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: lib/libmath.so
+          name: libmath.so
           path:
-            libmath.so
+            lib/libmath.so
