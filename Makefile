@@ -1,25 +1,37 @@
-CLEANEXTS   = o so
-
-# Specify the source files, the target files, 
-# and the install directory 
-SOURCES     = src/main.cpp
-OUTPUTFILE  = bin/lib.so
+CXX=clang++ -g -std=c++20 -Wall -pedantic
 
 .PHONY: all
-all: $(OUTPUTFILE)
+all:
+	make clean
+	make lib
+	make bin
+	make lib/libmath.so
+	cp -r src/**.hpp demo/
+	make main
+	rm -rf */**.o demo/*.hpp demo/**/*.hpp bin/
 
-$(OUTPUTFILE): $(subst .cpp,.o,$(SOURCES)) 
-	$(CXX) -shared -fPIC $(LDFLAGS) -o $@ $^
+.PHONY: demo
+demo:
+	make all
+	demo/main
 
-.PHONY: clean 
+.PHONY: main
+main: lib/libmath.so demo/main.o
+	$(CXX) -o demo/main demo/main.o -L./lib -Isrc/ -lmath
+
+.PHONY: lib/libmath.so
+lib/libmath.so: src/math.cpp
+	$(CXX) -fPIC -c src/math.cpp -o bin/math.o
+	$(CXX) -shared  -Wl -o lib/libmath.so bin/math.o
+
+.PHONY: lib
+lib:
+	mkdir -p lib
+
+.PHONY: bin
+bin:
+	mkdir -p bin
+
+.PHONY: clean
 clean:
-	rm -rf bin/ 
-	rm -rf src/*.o
-
-# Generate dependencies of .ccp files on .hpp files
-include $(subst .cpp,.h,$(SOURCES))
-
-%.h: %.cpp
-	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-rm -f $@.$$$$
+	rm -rf */**.o */**.so bin/ lib/
