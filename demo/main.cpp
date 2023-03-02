@@ -1,14 +1,14 @@
 #include <iostream>
-#include "math.hpp"
+#include "line.h"
 
 using namespace miit::math;
 
 int main()
 {
-    dot startDot = dot(2, 3);
+    point startPoint(2, 3);
 
-    std::cout << startDot.extrapolate(1) << std::endl;
-    std::cout << startDot << std::endl;
+    std::cout << startPoint.extrapolate(1) << std::endl;
+    std::cout << startPoint << std::endl;
 
     return 0;
 }

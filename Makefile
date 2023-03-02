@@ -6,24 +6,28 @@ all:
 	make lib
 	make bin
 	make lib/libmath.so
-	cp -r src/**.hpp demo/
+	cp -r src/**.h demo/
 	make main
-	rm -rf */**.o demo/*.hpp demo/**/*.hpp bin/
+	rm -rf */**.o demo/*.h demo/**/*.h 
 
 .PHONY: demo
 demo:
 	make all
-	demo/main
+	bin/main
 
 .PHONY: main
-main: lib/libmath.so demo/main.o
-	$(CXX) -o demo/main demo/main.o -L./lib -Isrc/ -lmath
+main: lib/libmath.so bin/main.o
+	$(CXX) -o bin/main bin/main.o -L./lib -Isrc/ -lmath
 
 .PHONY: lib/libmath.so
-lib/libmath.so: src/math.cpp
-	$(CXX) -fPIC -c src/math.cpp -o bin/math.o
-	$(CXX) -shared  -Wl -o lib/libmath.so bin/math.o
+lib/libmath.so: src/point.cpp src/line.cpp
+	$(CXX) -fPIC -c src/point.cpp -o bin/point.o
+	$(CXX) -fPIC -c src/line.cpp -o bin/line.o
+	$(CXX) -shared  -Wl -o lib/libmath.so bin/point.o bin/line.o
 
+.PHONY: bin/main.o
+bin/main.o: demo/main.cpp
+	$(CXX) -fPIC -c demo/main.cpp -o bin/main.o
 .PHONY: lib
 lib:
 	mkdir -p lib

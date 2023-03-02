@@ -1,11 +1,11 @@
-#include <string>
+#include <iostream>
 
 namespace miit::math
 {
 	/**
 	 * @brief математическое представление точки в пространстве
 	 */
-	class dot
+	class point
 	{
 		private:
 			/**
@@ -24,7 +24,7 @@ namespace miit::math
 			 * @param x координата по оси x
 			 * @param y координата по оси y
 			 */
-			explicit dot(double x = 0, double y = 0);
+			explicit point(const double x = 0, const double y = 0);
 
 			/**
 			 * @brief экстраполятор нулевого порядка 
@@ -32,7 +32,7 @@ namespace miit::math
 			 * @param x2 абсцисса правой точки
 			 * @return ордината правой точки 
 			 */
-			const double extrapolate(double x2) const;
+			double extrapolate(double x2) const;
 			
 			/**
 			 * @brief конвертироать точку в строку
@@ -55,47 +55,16 @@ namespace miit::math
 			 */
 			const double getY() const;
 
-			// Назначение операторов
-
-			friend std::ostream& operator<<(std::ostream& stream, const dot& self)
+            /**
+             * @brief перенаправить точку в строковом представлении в поток вывода
+             * 
+             * @param stream поток вывода
+             * @param self точка
+             * @return std::ostream& поток вывода
+             */
+			friend std::ostream& operator<<(std::ostream& stream, const point& self)
 			{
 				return stream << self.toString();
 			}
 	};
-
-	/**
-     * @brief класс, реализующий математический отрезок
-     * 
-     */
-    class line
-    {
-			private:
-				/**
-					* @brief левая точка
-					*/
-				dot left;
-
-				/**
-					* @brief правая точка
-					*/
-				dot right;
-			public:
-				/**
-				 * @brief создать новую линию
-				 * 
-				 * @param left левая точка
-				 * @param right правая точка
-				 */
-				explicit line(dot left, dot right);
-
-				/**
-				 * @brief получить левую точку
-				 */
-				const dot getLeft() const;
-
-				/**
-				 * @brief получить правую точку
-				 */
-				const dot getRight() const;
-    };
 }
