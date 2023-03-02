@@ -9,12 +9,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      - run: mkdir bin
       - name: Build
-        run: make
+        run: make all
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: lib.so
+          name: libmath.so
           path:
-            bin/lib.so
+            lib/libmath.so
